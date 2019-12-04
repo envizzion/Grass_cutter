@@ -20,8 +20,8 @@ error = encL.read() - encR.read();
 
 //pidFollow();
 
-gyroTurn(80.0);
-delay(3000);
+//gyroTurn(80.0);
+//delay(3000);
 //setPID(r1,r2);
 //Serial.println(kp);
 //LEFT;
@@ -29,13 +29,9 @@ delay(3000);
 //  long newPositionL = EncL.read();
 //  long newPositionR = EncR.read();
 //
-//  if (newPositionL != oldPositionL ||newPositionR != oldPositionR  ) {
-//    oldPositionL = newPositionL;
-//    oldPositionR = newPositionR;
-//    Serial.print(newPositionL);
-//    Serial.print(" ");
-//    Serial.println(newPositionR);
-// }
+ // printEncoders();
+Serial.println(analogRead(A1));
+
    
 while(loop_timer+20000 > micros());
 
