@@ -9,12 +9,14 @@ long newPositionR  = 0;
 //   Good Performance: only the first pin has interrupt capability
 //   Low Performance:  neither pin has interrupt capability
 
-// Right M- 1 round takes 1110 encoder counts
-// Left M - 1 round takes 1039 encoder counts
+// Left M- 1 round takes 1110 encoder counts
+// Right M - 1 round takes 1039 encoder counts
 
 
-Encoder encL(3, 5);
-Encoder encR(2, 6);
+
+
+Encoder encR(3, 5);
+Encoder encL(2, 6);
 
 void printEncoders(){
   newPositionL = encL.read();
@@ -27,10 +29,23 @@ void printEncoders(){
     Serial.println(newPositionR);
  }
   }
-long readEncL(){
-    return encL.read()*1110/1039 ;
-  }
+  //MAPPING left encoder single rotation error
 long readEncR(){
-    return encR.read() ;
+    return encR.read()*1110/1039 ;
+  }
+long readEncL(){
+    return encL.read() ;
   }  
+
+void resetEncoders(){
+  encL.write(0);
+  encR.write(0);
+  }
+
+float encError(){
+ //  return abs(encL.read()*1110/1039 - ;
+  return 0.0 ;
+  }  
+
+  
   

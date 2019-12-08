@@ -16,12 +16,13 @@ boolean set_gyro_angles;
 float angle_roll_acc, angle_pitch_acc,angle_yaw_acc;
 float angle_pitch_output, angle_roll_output,angle_yaw_output;
 unsigned int timeCounter;
-
+byte SOFT = 110;
+byte HARD = 111;
 
 
 
 void calliberate_mpu(){
-
+resetGyro(HARD);
   
  // Serial.print("Calibrating gyro");                                       //Print text to screen
   for (int cal_int = 0; cal_int < 500 ; cal_int ++){                  //Run this code 2000 times
@@ -195,19 +196,28 @@ float getAngle(char c){
       }
   }
 
-void resetGyro(){
+void resetGyro(byte x){
+
+  if(x==HARD){
   gyro_x_cal=0;
   gyro_y_cal=0;
   gyro_z_cal=0;
+  }
   gyro_x = 0 ;
   gyro_y = 0;
   gyro_z = 0;
   angle_pitch = 0 ;
   angle_roll = 0;
   angle_yaw = 0;
+  set_gyro_angles = false;
   }
 
-
+//set gyro cal value to current gro value
+void resetGyroSetpoint(){
+     gyro_x_cal +=gyro_x;
+     gyro_y_cal +=gyro_y;
+     gyro_z_cal +=gyro_z;
+  }
 
 
 
