@@ -16,7 +16,7 @@ initMotors();
 
 //findMpu();
   setup_mpu_6050_registers();
-//  calliberate_mpu();
+  calliberate_mpu();
 //----------------------------------
 
 

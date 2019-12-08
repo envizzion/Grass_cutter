@@ -14,8 +14,8 @@ float angle;
 //------------------------------
 
 //-------motorControl------//
-int rbSpeed=400,rMax=500;
-int lbSpeed=400,lMax=500;
+int rbSpeed=300,rMax=450;
+int lbSpeed=350,lMax=450;
 int mSpeed=0;
 int rpwm,lpwm;
 
@@ -74,8 +74,8 @@ void gyroTurn(float angle){
        resetGyro(SOFT);  
       setPWM(0,0); 
       setMotorDir('S');
-      delay(2000);
-      calliberate_mpu();
+      delay(1000);
+     // calliberate_mpu();
       
       if(angle < 0){
           setMotorDir('L');
@@ -88,7 +88,8 @@ void gyroTurn(float angle){
       setPWM(400,400);    
       while(abs(getAngle('z'))< angle ){
 
-        Serial.println(getAngle('z'));
+        //Serial.println(getAngle('z'));
+        Serial.println(angle);
         loop_timer = micros();  
         calculate_mpu();
         while(loop_timer+20000 > micros());
@@ -105,7 +106,7 @@ void gyroTurn(float angle){
 // counts for 1 cm = 1118/21.038 = ~53 counts 
 
   void moveCM(long distance){
-     distance*=-53;//-ve is because encoders reduce value whe going forward
+     distance*=-53;//-ve is because encoders reduce value when going forward
       resetEncoders();
       resetPID() ;
        if(distance < 0){
@@ -114,7 +115,7 @@ void gyroTurn(float angle){
         loop_timer = micros();  
         pidFollow(F);
         while(loop_timer+20000 > micros());
-        Serial.println(encL.read());
+    //    Serial.println(encL.read());
       }
       }
       else{
@@ -122,7 +123,7 @@ void gyroTurn(float angle){
         loop_timer = micros();  
         pidFollow(B);
         while(loop_timer+20000 > micros());
-                Serial.println(encL.read());
+      //          Serial.println(encL.read());
 
       }
       
@@ -144,13 +145,13 @@ void gyroTurn(float angle){
 
 //theres a +30 and -30 degree offset from zero when making the random turn to avoid inefficient cutting movements at the same place.
 float getRandomAngle(){
-   float ang = random(-180,180);
-
-   if(ang<0 && ang>-30){
-    ang-=30;
-   }
-   else if(ang>=0 && ang<30){
-    ang+=30;
-   }
+   float ang = 30*random(-6,6); //to get random values in minimum of 30 degree steps
+         
+//   if(ang<0 && ang>-30){
+//    ang-=30;
+//   }
+//   else if(ang>=0 && ang<30){
+//    ang+=30;
+//   }
    return ang;
   }    

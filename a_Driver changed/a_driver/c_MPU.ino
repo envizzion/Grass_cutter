@@ -212,7 +212,7 @@ void resetGyro(byte x){
   set_gyro_angles = false;
   }
 
-//set gyro cal value to current gro value
+//set gyro cal value to current gyro value
 void resetGyroSetpoint(){
      gyro_x_cal +=gyro_x;
      gyro_y_cal +=gyro_y;
