@@ -31,7 +31,8 @@ void printEncoders(){
   }
   //MAPPING left encoder single rotation error
 long readEncR(){
-    return encR.read()*1110/1039 ;
+//    return encR.read()*1110/1039 ;
+return encR.read()*1090/1039 ;
   }
 long readEncL(){
     return encL.read() ;
