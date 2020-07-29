@@ -17,8 +17,8 @@ float angle;
 //------------------------------
 
 //-------motorControl------//
-int rbSpeed = 300, rMax = 450;
-int lbSpeed = 350, lMax = 450;
+int rbSpeed = 350,rbASpeed = 300 , rMax = 450,rAMax = 400;
+int lbSpeed = 350,lbASpeed = 300 ,lMax = 450,lAMax = 400;
 int mSpeed = 0;
 int rpwm, lpwm;
 
@@ -259,3 +259,76 @@ void allignWithGuidewire() {
   resetEncoders();
 }
 
+float lastErrA ,errorA,kpA=1,kdA=0.3 , kiA = 0.005 ,  iErrorA = 0;
+
+
+void gyroTurnNew(float angle) {
+  setPWM(0, 0);
+  setMotorDir('S');
+  delay(1000);
+  // calliberate_mpu();
+
+  if (angle < 0) {
+    setMotorDir('L');  
+  }
+  else {
+    setMotorDir('R');
+  }
+  resetMPU();
+  lastErrA = 0 ;
+  iErrorA = 0;
+  setPWM(370, 370);
+while (abs(angle_gyro) < abs(angle) - 5 ) {
+    gyroGetAngle();
+//    pidRotate(angle); 
+    //Serial.println(getAngle('z'));
+    Serial.print(angle_gyro);Serial.print(" ");Serial.println(mSpeed);
+    while(loop_timer1 > micros());
+    loop_timer1 =micros()+ 4000;
+  }
+
+  //for breaking
+  if (angle < 0) {
+    setMotorDir('R');
+    
+  }
+  else {
+    setMotorDir('L');
+  }
+  delay(150);
+  setMotorDir('S');
+
+  encL.write(0);
+  encR.write(0);
+  resetPID() ;
+
+}
+
+
+void pidRotate(float err) {
+
+  errorA = abs(err) - abs(angle_gyro) ; 
+  
+  iErrorA += kiA*errorA;                                 //Calculate the I-controller value and add it to the pid_i_mem variable
+  if(iErrorA > rMax )iErrorA = rMax;                                       //Limit the I-controller to the maximum controller output
+
+
+  mSpeed = kpA*errorA + kdA*(errorA - lastErrA) + iErrorA;
+  lastErrA = mSpeed;
+
+  lpwm = rbASpeed + mSpeed;
+  rpwm = rbASpeed + mSpeed;
+
+
+
+  
+
+  if (rpwm > rAMax) rpwm = rAMax; // prevent the motor from going beyond max speed
+  if (lpwm > lAMax ) lpwm = lAMax; // prevent the motor from going beyond max speed
+  if (rpwm < 0) rpwm = 0; // keep the motor speed positive
+  if (lpwm < 0) lpwm = 0; // keep the motor speed positive
+
+
+    setPWM(rpwm, lpwm);
+
+}

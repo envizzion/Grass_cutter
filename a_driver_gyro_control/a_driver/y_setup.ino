@@ -13,7 +13,7 @@ initMotors();
   }
 
 //-------------MPU------------------
-
+setupMPU();
 //findMpu();
  
   //setup_mpu_6050_registers(); //temp commented since mpu got burned
@@ -29,11 +29,12 @@ sei();
 
 while(1){
 //  encodedTurn(-90);
- moveCM(-10);
+// moveCM(-10);
+gyroTurnNew(-180);
   delay(2000);
 
 }
-
+//testGyro();
 
 }
 
