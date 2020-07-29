@@ -27,14 +27,14 @@ setupMPU();
 
 sei();
 
-while(1){
-//  encodedTurn(-90);
-// moveCM(-10);
-moveCMGyro(20);
-//gyroTurnNew(-180);
-  delay(2000);
-
-}
+//while(1){
+////  encodedTurn(-90);
+//// moveCM(-10);
+//moveCMGyro(20);
+////gyroTurnNew(-180);
+//  delay(2000);
+//
+//}
 //testGyro();
 //testPIDFollow();
 }

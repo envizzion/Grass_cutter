@@ -83,28 +83,34 @@ while(squarePattern){
     currWidth++;
     if(currWidth > maxWidth){   // when maxWidth is reached do 180 turn without inverting facingNorth to invert the pattern
         currWidth=0;
-        encodedTurn(180);
-        delay(1000);
+//        encodedTurn(180);
+        gyroTurnNew(180);
+//        delay(1000);
 
         }
    else if(isFacingNorth){   //start with facing north
-      encodedTurn(90);  
-      delay(1000);
-      moveCM(10);
-      delay(1000);
-      encodedTurn(90);
+//      encodedTurn(90);  
+        gyroTurnNew(90);
+//      delay(600); // we have braking now no need to wait more than 600ms
+//      moveCM(10);
+        moveCMGyro(10);
+//      delay(600);
+//      encodedTurn(90);
+        gyroTurnNew(90);
       isFacingNorth = false;
     }
     else{
-         encodedTurn(-90);
-         delay(1000);
-         moveCM(10);
-         delay(1000);
-         encodedTurn(-90);
-         delay(1000);
+//      encodedTurn(-90);  
+        gyroTurnNew(-90);
+//      delay(600);
+//      moveCM(10);
+        moveCMGyro(10);
+//      delay(600);
+//      encodedTurn(-90);
+        gyroTurnNew(-90);
         isFacingNorth = true;
       }  
-      delay(1000);
+//      delay(600);
       
  
     

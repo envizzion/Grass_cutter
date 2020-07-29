@@ -197,6 +197,7 @@ void gyroPID(){
  void resetMPU(){
   angle_gyro = 0 ;
   gyro_yaw_calibration_value = 0 ;
+  delay(1000); // wait for settling before calliberation 
   callibMPU();
 
   

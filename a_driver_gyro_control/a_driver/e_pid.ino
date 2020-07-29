@@ -417,5 +417,20 @@ void moveCMGyro(long distance) {
   
 }
 
+//u turn for the square pattern not complete yet
+void gyroUTurn(char dir){
+
+  resetEncoders();
+  resetPID() ;
+  resetMPU();
+  lastErrA = 0 ;
+  iErrorA = 0;
+
+  
+  
+  
+  
+  
+  }
 
 
