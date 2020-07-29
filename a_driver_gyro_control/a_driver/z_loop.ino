@@ -80,7 +80,7 @@ while(squarePattern){
    else{
 //    moveCM(-10);
       breakMower();
-      moveCMGyro(-10);
+      moveCMGyro(-5);
 
    // gyroTurn(getRandomAngle());
 

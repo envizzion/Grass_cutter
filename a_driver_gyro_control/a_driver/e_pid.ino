@@ -336,7 +336,8 @@ void pidRotate(float err) {
 float kpAF = 3 , kdAF = 8 ;
 
 void pidFollowGyro(byte dir) {
-  errorA = angle_gyro ;
+  errorA =  gyroGetAngle();
+
 
 
   mSpeed = kpAF * errorA + kdAF * (errorA - lastErrA);
@@ -370,8 +371,7 @@ void testPIDFollow(){
   resetMPU();
   lastErrA = 0 ;
   iErrorA = 0;
-while (1) {
-    gyroGetAngle();
+  while (1) {
     pidFollowGyro(F);
     Serial.print(angle_gyro);Serial.print(" ");Serial.println(mSpeed);
     while(loop_timer1 > micros());
