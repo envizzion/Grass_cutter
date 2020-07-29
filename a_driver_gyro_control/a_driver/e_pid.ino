@@ -17,8 +17,8 @@ float angle;
 //------------------------------
 
 //-------motorControl------//
-int rbSpeed = 350,rbASpeed = 300 , rMax = 450,rAMax = 400;
-int lbSpeed = 350,lbASpeed = 300 ,lMax = 450,lAMax = 400;
+int rbSpeed = 350,rbASpeed = 300 , rMax = 400,rAMax = 400;
+int lbSpeed = 350,lbASpeed = 300 ,lMax = 400,lAMax = 400;
 int mSpeed = 0;
 int rpwm, lpwm;
 
@@ -332,3 +332,86 @@ void pidRotate(float err) {
     setPWM(rpwm, lpwm);
 
 }
+
+float kpAF = 3 , kdAF = 8 ;
+
+void pidFollowGyro(byte dir) {
+  errorA = angle_gyro ;
+
+
+  mSpeed = kp * errorA + kd * (errorA - lastErrA);
+  lastErrA = errorA;
+
+  lpwm = rbSpeed + mSpeed;
+  rpwm = lbSpeed - mSpeed;
+
+
+
+  if (rpwm > rMax) rpwm = rMax; // prevent the motor from going beyond max speed
+  if (lpwm > lMax ) lpwm = lMax; // prevent the motor from going beyond max speed
+  if (rpwm < 0) rpwm = 0; // keep the motor speed positive
+  if (lpwm < 0) lpwm = 0; // keep the motor speed positive
+
+  if (dir == F) {
+    setPWM(lpwm, rpwm);
+    setMotorDir('F');
+
+
+  }
+
+  else if (dir == B) {
+    setPWM(rpwm, lpwm);
+    setMotorDir('B');
+  }
+}
+
+void testPIDFollow(){
+  
+  resetMPU();
+  lastErrA = 0 ;
+  iErrorA = 0;
+while (1) {
+    gyroGetAngle();
+    pidFollowGyro(F);
+    Serial.print(angle_gyro);Serial.print(" ");Serial.println(mSpeed);
+    while(loop_timer1 > micros());
+    loop_timer1 =micros()+ 4000;
+  }
+
+  
+  }
+
+void moveCMGyro(long distance) {
+  distance *= -53; //-ve is because encoders reduce value when going forward
+  resetEncoders();
+  resetPID() ;
+  resetMPU();
+  lastErrA = 0 ;
+  iErrorA = 0;
+  if (distance < 0) {
+
+    while ((readEncL() + readEncR())/2 >= distance  ) {
+      loop_timer = micros();
+      pidFollowGyro(F);
+      while(loop_timer1 > micros());
+      loop_timer1 =micros()+ 4000;
+    }
+  }
+  else {
+    while ((readEncL() + readEncR())/2 <= distance) {
+      loop_timer = micros();
+      pidFollowGyro(B);
+      while(loop_timer1 > micros());
+      loop_timer1 =micros()+ 4000;
+
+    }
+  }
+  resetPID() ;
+  setMotorDir('S');
+  Serial.println(readEncL());
+  Serial.println(readEncR());
+  
+}
+
+
+
