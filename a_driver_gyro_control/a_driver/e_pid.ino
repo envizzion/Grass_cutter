@@ -17,8 +17,8 @@ float angle;
 //------------------------------
 
 //-------motorControl------//
-int rbSpeed = 350,rbASpeed = 300 , rMax = 400,rAMax = 400;
-int lbSpeed = 350,lbASpeed = 300 ,lMax = 400,lAMax = 400;
+int rbSpeed = 330,rbASpeed = 300 , rMax = 400,rAMax = 400;
+int lbSpeed = 330,lbASpeed = 300 ,lMax = 400,lAMax = 400;
 int mSpeed = 0;
 int rpwm, lpwm;
 
@@ -339,7 +339,7 @@ void pidFollowGyro(byte dir) {
   errorA = angle_gyro ;
 
 
-  mSpeed = kp * errorA + kd * (errorA - lastErrA);
+  mSpeed = kpAF * errorA + kdAF * (errorA - lastErrA);
   lastErrA = errorA;
 
   lpwm = rbSpeed + mSpeed;
@@ -396,6 +396,8 @@ void moveCMGyro(long distance) {
       while(loop_timer1 > micros());
       loop_timer1 =micros()+ 4000;
     }
+      setMotorDir('B'); //for breaking
+
   }
   else {
     while ((readEncL() + readEncR())/2 <= distance) {
@@ -405,8 +407,10 @@ void moveCMGyro(long distance) {
       loop_timer1 =micros()+ 4000;
 
     }
+      setMotorDir('F'); //for breaking
+
   }
-  resetPID() ;
+  delay(80); //breaking time
   setMotorDir('S');
   Serial.println(readEncL());
   Serial.println(readEncR());
