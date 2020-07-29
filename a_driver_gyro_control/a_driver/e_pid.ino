@@ -433,4 +433,15 @@ void gyroUTurn(char dir){
   
   }
 
+  void resetGyroNew(){
+      resetMPU();
+      lastErrA = 0 ;
+      iErrorA = 0;
+    }
 
+  void  breakMower(){
+     setMotorDir('B'); //for breaking
+     delay(80);
+     setMotorDir('S');
+     delay(1000);    
+    }

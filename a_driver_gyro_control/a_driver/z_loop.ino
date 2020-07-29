@@ -74,10 +74,14 @@ while(squarePattern){
     }
    
    else if(!foundWire){
-      pidFollow(F);
+//      piFollow(F);
+      pidFollowGyro(F);
    }
    else{
-    moveCM(-10);
+//    moveCM(-10);
+      breakMower();
+      moveCMGyro(-10);
+
    // gyroTurn(getRandomAngle());
 
     currWidth++;
@@ -115,11 +119,12 @@ while(squarePattern){
  
     
       foundWire = false;
+      resetGyroNew();
      }
     searchWire();
 //    readBattery();
    //  Serial.println(foundWire);
-while(main_loop_timer+20000 > micros());
+while(main_loop_timer+4000 > micros());
 } 
 
 //------------------------------------------------------
